@@ -1,6 +1,8 @@
 const bcrypt = require('bcryptjs')
-const { UserInputError } = require('apollo-server')
+const { UserInputError, AuthenticationError } = require('apollo-server')
+const jwt = require('jsonwebtoken')
 const { User } = require('../models')
+
 module.exports = {
     Query: {
       getUsers: async () => {
@@ -11,6 +13,41 @@ module.exports = {
           console.log(err)
         }
       },
+      login: async (_, args) => {
+        const { username, password} = args
+        let errors = {}
+        try {
+          if(username.trim() === '')errors.username = 'username must not be empty'
+          if(password === '')errors.password = 'password must not be empty'
+
+          if(Object.keys(errors).length > 0){
+            throw new UserInputError('bad input', { errors })
+          }
+          
+          const user = await User.findOne({
+            where: { username }
+          })
+
+          if(!user){
+            errors.username = 'user not found'
+            throw new UserInputError('user not found', { errors })
+          }
+
+          const correctPassword = await bcrypt.compare(password, user.password)
+
+          if(!correctPassword){
+            errors.password = 'password is incorrect'
+            throw new AuthenticationError('password is incorrect', { errors })
+          }
+
+          const token = jwt.sign({ username }, 'some secret', { expiresIn: 60 * 60 }); 
+
+          return user
+        } catch(err){
+          console.log(err)
+          throw err
+        }
+      }
     },
     Mutation: {
       register: async (_, args) => {
