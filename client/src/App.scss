@@ -1,17 +1,19 @@
-$blue: #1877F2;
-$green: #42B72A;
+$blue: #1877f2;
+$green: #42b72a;
 
 $border-radius: 0;
+$paragraph-margin-bottom: 0;
 
-@import "~bootstrap/scss/bootstrap";
+$gray-600: rgb(245, 245, 245);
 
+@import '~bootstrap/scss/bootstrap';
 
-body{
-    min-height: 100vh;
-    background: linear-gradient(
-        203deg,
-        rgba(253, 29, 29, 0.9) 0%,
-        rgba(29, 134, 253, 0.9) 50%,
-        rgba(175, 59, 252, 0.9) 100%,
-    );
+body {
+  min-height: 100vh;
+  background: linear-gradient(
+    203deg,
+    rgba(131, 58, 180, 0.9) 0%,
+    rgba(253, 29, 29, 0.9) 50%,
+    rgba(252, 176, 69, 0.9) 100%
+  );
 }

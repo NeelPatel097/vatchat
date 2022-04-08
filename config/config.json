@@ -9,7 +9,7 @@
   "test": {
     "username": "root",
     "password": "Pneel@9718$",
-    "database": "database_test",
+    "database": "chat",
     "host": "127.0.0.1",
     "dialect": "mysql"
   },
